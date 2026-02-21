@@ -20,17 +20,21 @@ public class App {
         em.getTransaction().begin();
 
         Person p = new Person(
-                "Priyanshu",
-                "Jha",
-                "priyanshu76@gmail.com",
-                22
+                "Prgdgdgu",
+                "Jgg",
+                "dd7653@gmail.com",
+                21
         );
+        p.setFirstName("Hello");
 
+        em.find(Person.class,1L);
         em.persist(p);
+
+
 
         em.getTransaction().commit();
 
-        System.out.println("✅ Inserted: " + p);
+        System.out.println("Inserted: " + p);
 
         em.close();
         emf.close();

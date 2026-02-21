@@ -14,54 +14,23 @@ public class MedicalRecord {
     private String diagnosis;
     private String notes;
 
-    @OneToOne(mappedBy = "medicalRecord")
-    private Patient patient;
-
-    public Long getId() {
-        return id;
+    public MedicalRecord() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public String getDiagnosis() {
-        return diagnosis;
-    }
-
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
-    }
-
-    public LocalDate getRecordDate() {
-        return recordDate;
-    }
-
-    public void setRecordDate(LocalDate recordDate) {
-        this.recordDate = recordDate;
-    }
-
-    public MedicalRecord(Long id, LocalDate recordDate, String diagnosis, String notes, Patient patient) {
+    public MedicalRecord(Long id, LocalDate recordDate, String diagnosis, String notes) {
         this.id = id;
         this.recordDate = recordDate;
         this.diagnosis = diagnosis;
         this.notes = notes;
-        this.patient = patient;
     }
+
+    public Long getId() { return id; }
+    public LocalDate getRecordDate() { return recordDate; }
+    public String getDiagnosis() { return diagnosis; }
+    public String getNotes() { return notes; }
+
+    public void setId(Long id) { this.id = id; }
+    public void setRecordDate(LocalDate recordDate) { this.recordDate = recordDate; }
+    public void setDiagnosis(String diagnosis) { this.diagnosis = diagnosis; }
+    public void setNotes(String notes) { this.notes = notes; }
 }

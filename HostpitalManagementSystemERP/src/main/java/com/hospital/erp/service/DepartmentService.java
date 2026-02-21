@@ -26,7 +26,8 @@ public class DepartmentService {
 
     public List<Department> findAll() {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-        List<Department> list = em.createQuery("SELECT d FROM Department d", Department.class).getResultList();
+        List<Department> list = em.createQuery("SELECT d FROM Department d", Department.class)
+                .getResultList();
         em.close();
         return list;
     }
@@ -36,7 +37,9 @@ public class DepartmentService {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         Department dept = em.find(Department.class, id);
-        em.remove(dept);
+        if (dept != null) {
+            em.remove(dept);
+        }
         tx.commit();
         em.close();
     }

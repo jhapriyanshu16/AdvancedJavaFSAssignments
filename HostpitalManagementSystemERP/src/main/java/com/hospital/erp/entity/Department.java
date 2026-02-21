@@ -1,7 +1,8 @@
 package com.hospital.erp.entity;
 
 import jakarta.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Department {
@@ -14,55 +15,37 @@ public class Department {
     private String location;
     private String headDoctorName;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Doctor> doctors = new ArrayList<>();
 
-    public Long getId() {
-        return id;
+    public Department() {
     }
 
-    public void setId(Long id) {
+    public Department(Long id, String name, String location, String headDoctorName) {
         this.id = id;
-    }
-
-
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
-    }
-
-    public String getHeadDoctorName() {
-        return headDoctorName;
-    }
-
-    public void setHeadDoctorName(String headDoctorName) {
+        this.name = name;
+        this.location = location;
         this.headDoctorName = headDoctorName;
     }
 
-    public String getLocation() {
-        return location;
+    public void addDoctor(Doctor d) {
+        doctors.add(d);
+        d.setDepartment(this);
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void removeDoctor(Doctor d) {
+        doctors.remove(d);
+        d.setDepartment(null);
     }
 
-    public String getName() {
-        return name;
-    }
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getLocation() { return location; }
+    public String getHeadDoctorName() { return headDoctorName; }
+    public List<Doctor> getDoctors() { return doctors; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Department(Long id, List<Doctor> doctors, String headDoctorName, String name, String location) {
-        this.id = id;
-        this.doctors = doctors;
-        this.headDoctorName = headDoctorName;
-        this.name = name;
-        this.location = location;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setLocation(String location) { this.location = location; }
+    public void setHeadDoctorName(String headDoctorName) { this.headDoctorName = headDoctorName; }
 }

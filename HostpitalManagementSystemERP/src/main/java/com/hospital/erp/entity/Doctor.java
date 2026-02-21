@@ -1,7 +1,8 @@
 package com.hospital.erp.entity;
 
 import jakarta.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Doctor {
@@ -14,11 +15,15 @@ public class Doctor {
     private String specialization;
     private String licenseNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private List<Appointment> appointments = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "patient_doctors",
             joinColumns = @JoinColumn(name = "doctor_id"),
@@ -26,73 +31,37 @@ public class Doctor {
     )
     private List<Patient> patients = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
-    private List<Appointment> appointments = new ArrayList<>();
-
-    public Long getId() {
-        return id;
+    public Doctor() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    public List<Patient> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public String getLicenseNo() {
-        return licenseNo;
-    }
-
-    public void setLicenseNo(String licenseNo) {
-        this.licenseNo = licenseNo;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Doctor(Long id, String name, String specialization, String licenseNo, List<Patient> patients, Department department, List<Appointment> appointments) {
+    public Doctor(Long id, String name, String specialization, String licenseNo) {
         this.id = id;
         this.name = name;
         this.specialization = specialization;
         this.licenseNo = licenseNo;
-        this.patients = patients;
-        this.department = department;
-        this.appointments = appointments;
     }
+
+    public void addPatient(Patient p) {
+        patients.add(p);
+        p.getDoctors().add(this);
+    }
+
+    public void removePatient(Patient p) {
+        patients.remove(p);
+        p.getDoctors().remove(this);
+    }
+
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getSpecialization() { return specialization; }
+    public String getLicenseNo() { return licenseNo; }
+    public Department getDepartment() { return department; }
+    public List<Appointment> getAppointments() { return appointments; }
+    public List<Patient> getPatients() { return patients; }
+
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setSpecialization(String specialization) { this.specialization = specialization; }
+    public void setLicenseNo(String licenseNo) { this.licenseNo = licenseNo; }
+    public void setDepartment(Department department) { this.department = department; }
 }

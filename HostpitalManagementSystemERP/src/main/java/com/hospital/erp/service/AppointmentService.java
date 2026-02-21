@@ -37,7 +37,9 @@ public class AppointmentService {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         Appointment appointment = em.find(Appointment.class, id);
-        em.remove(appointment);
+        if (appointment != null) {
+            em.remove(appointment);
+        }
         tx.commit();
         em.close();
     }

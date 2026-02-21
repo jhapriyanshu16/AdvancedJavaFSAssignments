@@ -31,7 +31,10 @@ public class DoctorService {
         tx.begin();
         Doctor doctor = em.find(Doctor.class, doctorId);
         Patient patient = em.find(Patient.class, patientId);
-        doctor.addPatient(patient);
+        if (doctor != null && patient != null) {
+            doctor.getPatients().add(patient);
+            patient.getDoctors().add(doctor);
+        }
         tx.commit();
         em.close();
     }
@@ -52,7 +55,9 @@ public class DoctorService {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         Doctor doctor = em.find(Doctor.class, id);
-        em.remove(doctor);
+        if (doctor != null) {
+            em.remove(doctor);
+        }
         tx.commit();
         em.close();
     }

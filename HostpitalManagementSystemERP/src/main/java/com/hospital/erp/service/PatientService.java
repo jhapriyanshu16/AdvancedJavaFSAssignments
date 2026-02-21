@@ -26,7 +26,8 @@ public class PatientService {
 
     public List<Patient> findAll() {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-        List<Patient> list = em.createQuery("SELECT p FROM Patient p", Patient.class).getResultList();
+        List<Patient> list = em.createQuery("SELECT p FROM Patient p", Patient.class)
+                .getResultList();
         em.close();
         return list;
     }
@@ -45,7 +46,9 @@ public class PatientService {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         Patient patient = em.find(Patient.class, id);
-        em.remove(patient);
+        if (patient != null) {
+            em.remove(patient);
+        }
         tx.commit();
         em.close();
     }

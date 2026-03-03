@@ -7,6 +7,7 @@ import com.example.demo.service.CategoryService;
 import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.exception.InvalidProductDataException;
 
+import com.example.demo.utils.CategoryMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -26,9 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
             throw new InvalidProductDataException("Category name must be unique");
         }
 
-        Category category = new Category();
-        category.setCategoryName(dto.getCategoryName());
-        category.setDescription(dto.getDescription());
+//        Category category = new Category();
+//        category.setCategoryName(dto.getCategoryName());
+//        category.setDescription(dto.getDescription());
+        Category category = CategoryMapper.toEntity(dto);
 
         return categoryRepository.save(category);
     }
@@ -58,6 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         existing.setCategoryName(dto.getCategoryName());
         existing.setDescription(dto.getDescription());
+
 
         return categoryRepository.save(existing);
     }

@@ -10,6 +10,7 @@ import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.exception.ProductNotFoundException;
 import com.example.demo.exception.InvalidProductDataException;
 
+import com.example.demo.utils.ProductMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -33,9 +34,11 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        Product product = new Product();
-        product.setProductName(dto.getProductName());
-        product.setPrice(dto.getPrice());
+//        Product product = new Product();
+//        product.setProductName(dto.getProductName());
+//        product.setPrice(dto.getPrice());
+//        product.setCategory(category);
+        Product product = ProductMapper.toEntity(dto);
         product.setCategory(category);
 
         return productRepository.save(product);

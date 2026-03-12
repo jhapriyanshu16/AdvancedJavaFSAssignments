@@ -18,6 +18,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
+
+
     @PostMapping
     public Category createCategory(@Valid @RequestBody CategoryDTO dto) {
         return categoryService.createCategory(dto);
